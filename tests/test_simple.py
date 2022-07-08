@@ -24,3 +24,6 @@ def test_inference():
         return(text_probs)
 
     #assert text_probs.cpu().numpy()[0].tolist() == [1.0, 0.0, 0.0]
+    
+
+test_inference()
