@@ -20,12 +20,13 @@ def test_inference():
     with torch.no_grad():
         image_features = model.encode_image(image)
         text_features = model.encode_text(text)
-
+        image_features /= image_features.norm(dim=-1, keepdim=True)
+        text_features /= text_features.norm(dim=-1, keepdim=True)
+        
         text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
     
-    return(text_probs)
 
-    #assert text_probs.cpu().numpy()[0].tolist() == [1.0, 0.0, 0.0]
+    print("Label probs:", text_probs)
     
 
 test_inference()
