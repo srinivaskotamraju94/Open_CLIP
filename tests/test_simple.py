@@ -8,10 +8,12 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 def test_inference():
     model, _, preprocess = open_clip.create_model_and_transforms('ViT-B-32-quickgelu', pretrained='laion400m_e32')
+    checkpoint = torch.load("/rapids/notebooks/open_clip/src/logs/OpenAIFlickr8kTraining5/checkpoints/epoch_30.pt")
+    model = model.load_state_dict(checkpoint['model_state_dict'])
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
 
-    image = preprocess(Image.open(current_dir + "/../docs/CLIP.png")).unsqueeze(0)
+    image = preprocess(Image.open("/rapids/notebooks/host/ImagesOpenClipTrain/424379231_23f1ade134.jpg")).unsqueeze(0)
     text = tokenizer.tokenize(["a diagram", "a dog", "a cat"])
 
     with torch.no_grad():
