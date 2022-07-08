@@ -9,7 +9,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 def test_inference():
     model, _, preprocess = open_clip.create_model_and_transforms('ViT-B-32-quickgelu', pretrained='laion400m_e32')
     checkpoint = torch.load("/rapids/notebooks/open_clip/src/logs/OpenAIFlickr8kTraining5/checkpoints/epoch_30.pt")
-    model = model.load_state_dict(checkpoint['model_state_dict'])
+    model = model.load_state_dict(checkpoint['state_dict'])
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
 
