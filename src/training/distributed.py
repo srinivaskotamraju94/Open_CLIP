@@ -111,3 +111,5 @@ def init_distributed_device(args):
     args.device = device
     device = torch.device(device)
     return device
+
+return os.environ
