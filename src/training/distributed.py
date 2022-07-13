@@ -56,7 +56,7 @@ def world_info_from_env():
             world_size = int(os.environ[v])
             break
 
-    print (local_rank, global_rank, world_size)
+    return local_rank, global_rank, world_size
 
 
 def init_distributed_device(args):
@@ -111,6 +111,4 @@ def init_distributed_device(args):
     args.device = device
     device = torch.device(device)
     return device
-
-world_info_from_env()
 
