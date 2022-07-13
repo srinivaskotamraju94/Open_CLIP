@@ -56,7 +56,8 @@ def world_info_from_env():
             world_size = int(os.environ[v])
             break
 
-    return local_rank, global_rank, world_size
+    print (local_rank, global_rank, world_size)
+    print (os.environ)
 
 
 def init_distributed_device(args):
