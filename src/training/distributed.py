@@ -113,5 +113,5 @@ def init_distributed_device(args):
     device = torch.device(device)
     return device
 
-is_using_distributed()
+world_info_from_env()
 
