@@ -155,7 +155,7 @@ def main():
             # this doesn't exist in older PyTorch, arg only added if enabled
             ddp_args['static_graph'] = True
         model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[device], **ddp_args)
-        logging.info(f'Running with a single process. Device {[device]}.')
+
 
     # create optimizer and scaler
     optimizer = None
