@@ -15,7 +15,7 @@ def test_inference():
     current_dir = os.path.dirname(os.path.realpath(__file__))
 
     image = preprocess(Image.open("/rapids/notebooks/host/ImagesOpenClipTrain/424379231_23f1ade134.jpg")).unsqueeze(0)
-    text = tokenizer.tokenize(["a diagram", "a dog", "a cat"])
+    text = tokenizer.tokenize(["a diagram", "a fox", "a cat"])
 
     with torch.no_grad():
         image_features = model.encode_image(image)
