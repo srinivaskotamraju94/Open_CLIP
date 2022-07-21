@@ -26,7 +26,7 @@ def test_inference():
     
     for images in os.listdir(folder_dir) :
         image = preprocess(Image.open(os.path.join(folder_dir,images))).unsqueeze(0)
-        text = tokenizer.tokenize(["a leopard","a Zebra","a bulb", "a cup"])
+        text = tokenizer.tokenize(["An image of a leopard","An image of a tiger","An image of a Zebra","Zebra in brown grass","An Image of Yellow bulb","An Image of a White bulb","Red cup","White Cup"])
         
         with torch.no_grad():
             image_features = model.encode_image(image)
