@@ -6,7 +6,7 @@ import os
 from os import listdir 
 
 # get the path / directory 
-folder_dir = "/rapids/notebooks/host/ImagesOpenClipTrain"
+folder_dir = "/rapids/notebooks/host/TestImages"
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
@@ -21,19 +21,23 @@ def test_inference():
     #image = preprocess(Image.open("/rapids/notebooks/host/ImagesOpenClipTrain/424379231_23f1ade134.jpg")).unsqueeze(0)
     #text = tokenizer.tokenize(["a diagram", "a fox", "a cat"])
     
+    prob_list = []
+    caption_list = ["a diagram","a fox","a cat"]
+    
     for images in os.listdir(folder_dir) :
         image = preprocess(Image.open(images)).unsqueeze(0)
-        text = tokenizer.tokenize(["a diagram","a fox","a cat"])
+        #text = tokenizer.tokenize(["a leopard","a Zebra","a bulb", "a cup"])
         
-        with torch.no_grad():
+        for text in caption_list :
             
-            image_features = model.encode_image(image)
-            text_features = model.encode_text(text)
-            image_features /= image_features.norm(dim=-1, keepdim=True)
-            text_features /= text_features.norm(dim=-1, keepdim=True)
-            text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-            
-        print("Label probs:", text_probs)
+            with torch.no_grad():
+                image_features = model.encode_image(image)
+                text_features = model.encode_text(text)
+                image_features /= image_features.norm(dim=-1, keepdim=True)
+                text_features /= text_features.norm(dim=-1, keepdim=True)
+                text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
+                #prob_list.append(text_probs)
+                print("Label probs:", text_probs)
     
 
 test_inference()
