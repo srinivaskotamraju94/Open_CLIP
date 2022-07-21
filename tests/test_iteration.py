@@ -21,24 +21,22 @@ def test_inference():
     #image = preprocess(Image.open("/rapids/notebooks/host/ImagesOpenClipTrain/424379231_23f1ade134.jpg")).unsqueeze(0)
     #text = tokenizer.tokenize(["a diagram", "a fox", "a cat"])
     
-    prob_list = []
-    caption_list = ["a leopard","a Zebra","a bulb","a cup"]
+    #prob_list = []
+    #caption_list = ["a leopard","a Zebra","a bulb","a cup"]
     
     for images in os.listdir(folder_dir) :
         image = preprocess(Image.open(os.path.join(folder_dir,images))).unsqueeze(0)
-        #text = tokenizer.tokenize(["a leopard","a Zebra","a bulb", "a cup"])
+        text = tokenizer.tokenize(["a leopard","a Zebra","a bulb", "a cup"])
         
-        for text in caption_list :
-            
-            with torch.no_grad():
-                image_features = model.encode_image(image)
-                tokentext = tokenizer.tokenize(text)
-                text_features = model.encode_text(tokentext)
-                image_features /= image_features.norm(dim=-1, keepdim=True)
-                text_features /= text_features.norm(dim=-1, keepdim=True)
-                text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-                #prob_list.append(text_probs)
-                print("Label probs:", text_probs)
+        with torch.no_grad():
+            image_features = model.encode_image(image)
+            text_features = model.encode_text(text)
+            image_features /= image_features.norm(dim=-1, keepdim=True)
+            text_features /= text_features.norm(dim=-1, keepdim=True)
+            text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
+            #prob_list.append(text_probs)
+        
+        print("Label probs:", text_probs)
     
 
 test_inference()
