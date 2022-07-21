@@ -22,7 +22,7 @@ def test_inference():
     #text = tokenizer.tokenize(["a diagram", "a fox", "a cat"])
     
     #prob_list = []
-    #caption_list = ["a leopard","a Zebra","a bulb","a cup"]
+    #caption_list = ["An image of a leopard","An image of a tiger","An image of a Zebra","Zebra in brown grass","An Image of Yellow bulb","An Image of a White bulb","Red cup","White Cup"]
     
     for images in os.listdir(folder_dir) :
         image = preprocess(Image.open(os.path.join(folder_dir,images))).unsqueeze(0)
