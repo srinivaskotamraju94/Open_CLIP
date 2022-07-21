@@ -32,7 +32,8 @@ def test_inference():
             
             with torch.no_grad():
                 image_features = model.encode_image(image)
-                text_features = model.encode_text(text)
+                tokentext = tokenizer.tokenize(text)
+                text_features = model.encode_text(tokentext)
                 image_features /= image_features.norm(dim=-1, keepdim=True)
                 text_features /= text_features.norm(dim=-1, keepdim=True)
                 text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
