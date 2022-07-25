@@ -2,9 +2,9 @@ import os
 import sys
 import asyncio
 import argparse
-!pip install aiohttp
+pip install aiohttp
 import aiohttp
-!pip install aiofiles
+pip install aiofiles
 import aiofiles
 from io import BytesIO
 from typing import List, Tuple, Optional
