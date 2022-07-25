@@ -85,7 +85,7 @@ if __name__ == "__main__" :
       
       parser.add_argument("--download-dir",
                           type=str,
-                          help="The directory for saving the downloaded Pixabay images.",
+                          help="The directory for saving the downloaded images.",
                           default=download_dir_default
                          )
       
