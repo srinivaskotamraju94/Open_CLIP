@@ -92,6 +92,7 @@ if __name__ == "__main__" :
       
       image_urls_filepath = argv.image_urls_filepath
       download_dir = argv.download_dir
+      image_url_tuples = read_image_urls(image_urls_filepath)
       
       print("Downloading images...")
       start = timer()
