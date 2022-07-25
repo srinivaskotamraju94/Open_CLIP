@@ -78,7 +78,7 @@ if __name__ == "__main__" :
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
     
-      parser.add_argument("--image-ids-filepath",
+      parser.add_argument("--image-urls-filepath",
                           type=str,
                           help="A file which should have the following : ImageId , URL to download",
                          )
