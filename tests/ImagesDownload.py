@@ -14,6 +14,7 @@ from PIL import Image
 import requests
 
 
+
 def read_image_urls(image_urls_filepath) :
 
     image_url_tuples = []
@@ -36,13 +37,14 @@ async def async_download_image(image_url_tuple , download_dir):
     image_filename = f"{image_id}.jpg"
     image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
-    async with aiohttp.ClientSession() as session:
-        async with session.request(method='GET',url=image_url) as response:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False, limit=500)) as session:
+        processed_url = url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
+        async with session.request(method='GET',url=processed_url) as response:
             if response.status == 200:
                 try : 
                   content = await response.read()
                   ImageBytes = BytesIO(content)
-                  ImgFile = Image.open(ImageBytes).resize((224,224)).convert("RGB")
+                  ImgFile = Image.open(ImageBytes).convert("RGB")
                   buf = BytesIO()
                   ImgFile.save(buf,format = 'JPEG')
                   byte_im = buf.getvalue()
