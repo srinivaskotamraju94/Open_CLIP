@@ -117,7 +117,7 @@ if __name__ == "__main__" :
         description="Download Pixabay royalty-free images.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
-      parser.add_argument("filepath",type=str,help="A file which should have the following : ImageId , URL to download",)
+      parser.add_argument("--filepath",type=str,help="A file which should have the following : ImageId , URL to download",)
         
       argv = parser.parse_args()
     
