@@ -91,9 +91,9 @@ def ImageURLFile(ItemDataFrame) :
         ItemId = ItemDataFrame['ItemId'][value]
         ItemURL = ItemDataFrame['ProductURL'][value]
     
-        TxtFile.write("{},{}\n".format(ItemId,ItemURL))
+        ImageURLFile.write("{},{}\n".format(ItemId,ItemURL))
 
-    TxtFile.close()
+    ImageURLFile.close()
 
 
 def ImageCaptionFile(ItemDataFrame) :
