@@ -13,7 +13,7 @@ def gettextfiles(filepath) :
     
     for jsonfiles in os.listdir(filepath) : 
         
-        InputFile = [json.loads(line) for line in open(jsonfiles,'r')]
+        InputFile = [json.loads(line) for line in open(os.path.join(filepath,jsonfiles),'r')]
         
         # Pre-Processing 01 - Making Sure all the Item IDs have a Product Name and Asset 
         
