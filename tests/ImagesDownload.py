@@ -37,7 +37,7 @@ async def async_download_image(image_url_tuple , download_dir):
     image_filename = f"{image_id}.jpg"
     image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
-    async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(verify_ssl=False, limit=500),trust_env = True) as session:
+    async with aiohttp.ClientSession() as session:
         #processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
         async with session.request(method='GET',url=image_url) as response:
             if response.status == 200:
