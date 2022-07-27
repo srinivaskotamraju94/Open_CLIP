@@ -12,7 +12,8 @@ from timeit import default_timer as timer
 from datetime import timedelta
 from PIL import Image
 import requests
-from google.cloud import storage
+#from google.cloud import storage
+import storage
 
 def Google_Cred(Credentials_filepath,bucketname) : 
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
