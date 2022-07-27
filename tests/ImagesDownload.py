@@ -69,7 +69,7 @@ async def async_download_image(image_url_tuple,bucketfolderpath) :
  
 
 
-async def async_download_images(image_url_tuples,bucketfolderpath,bucketname):
+async def async_download_images(image_url_tuples,bucketfolderpath):
 
     coroutines = [
         async_download_image(image_url_tuple=image_url_tuple,bucketfolderpath=bucketfolderpath)
