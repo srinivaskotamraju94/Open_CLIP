@@ -15,12 +15,10 @@ import requests
 from google.cloud import storage
 #import storage
 
-def Google_Cred(Credentials_filepath,bucketname) : 
+def Google_Cred(Credentials_filepath) : 
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucketname)
-    
-    return bucket
+    #bucket = storage_client.get_bucket(bucketname)
 
 
 
@@ -40,7 +38,7 @@ def read_image_urls(image_urls_filepath) :
   
 
 
-async def async_download_image(image_url_tuple,bucketfolderpath,bucket) :
+async def async_download_image(image_url_tuple,bucketfolderpath,bucketname) :
 
     image_id, image_url = image_url_tuple
     processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
@@ -61,6 +59,7 @@ async def async_download_image(image_url_tuple,bucketfolderpath,bucket) :
                   byte_im = buf.getvalue()
                   #async with aiofiles.open(image_filepath, "wb") as f:
                     #await f.write(byte_im)
+                  bucket = storage_client.get_bucket(bucketname)
                   blob = bucket.blob(imagefilepath)
                   blob.upload_from_string(byte_im)
 
@@ -71,11 +70,11 @@ async def async_download_image(image_url_tuple,bucketfolderpath,bucket) :
  
 
 
-async def async_download_images(image_url_tuples: List[Tuple[int, str]],bucketfolderpath,bucket):
+async def async_download_images(image_url_tuples: List[Tuple[int, str]],bucketfolderpath,bucketname):
 
     coroutines = [
         async_download_image(image_url_tuple=image_url_tuple,
-                             bucketfolderpath=bucketfolderpath,bucket=bucket)
+                             bucketfolderpath=bucketfolderpath,bucketname=bucketname)
         for image_url_tuple in image_url_tuples if image_url_tuple[1] != "None"
     ]
 
@@ -126,8 +125,8 @@ if __name__ == "__main__" :
       image_urls_filepath = argv.image_urls_filepath
       Credentials_filepath = argv.Credentials_filepath
       bucketname = argv.bucketname
-      bucket = Google_Cred(Credentials_filepath,bucketname)
-      print(bucket)
+      Google_Cred(Credentials_filepath)
+      #print(bucket)
       #download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
       bucketfolderpath = argv.bucketfolderpath
