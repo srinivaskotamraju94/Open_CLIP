@@ -12,14 +12,12 @@ from timeit import default_timer as timer
 from datetime import timedelta
 from PIL import Image
 import requests
-
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
-
 from google.cloud import storage
-storage_client = storage.Client()
 
-bucket = storage_client.get_bucket(bucketname)
+def Google_Cred(Credentials_filepath,bucketname) : 
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(bucketname)
 
 
 
@@ -124,6 +122,7 @@ if __name__ == "__main__" :
       image_urls_filepath = argv.image_urls_filepath
       Credentials_filepath = argv.Credentials_filepath
       bucketname = argv.bucketname
+      Google_Cred(Credentials_filepath,bucketname)
       #download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
       bucketfolderpath = argv.bucketfolderpath
