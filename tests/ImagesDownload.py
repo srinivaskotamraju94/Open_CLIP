@@ -43,7 +43,7 @@ async def async_download_image(image_url_tuple , bucketfolderpath) :
     image_id, image_url = image_url_tuple
     processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
     image_filename = f"{image_id}.jpg"
-    image_filepath = bucketfolderpath + imagefilename
+    image_filepath = bucketfolderpath + image_filename
     #image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
     async with aiohttp.ClientSession() as session:
