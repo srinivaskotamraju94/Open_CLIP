@@ -60,7 +60,8 @@ async def async_download_image(image_url_tuple,bucketfolderpath) :
                   #async with aiofiles.open(image_filepath, "wb") as f:
                     #await f.write(byte_im)
                   blob = bucket.blob(imagefilepath)
-                  blob.upload_from_string(byte_im)
+                  #blob.upload_from_string(byte_im)
+                  blob.upload_from_file(buf)
 
                 except : 
                   pass
