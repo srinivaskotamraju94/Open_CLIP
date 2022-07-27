@@ -14,6 +14,14 @@ from PIL import Image
 import requests
 
 
+export GOOGLE_APPLICATION_CREDENTIALS = Credentials_filepath
+
+from google.cloud import storage
+storage_client = storage.Client()
+
+bucket = storage_client.get_bucket(bucketname)
+
+
 
 def read_image_urls(image_urls_filepath) :
 
@@ -31,12 +39,13 @@ def read_image_urls(image_urls_filepath) :
   
 
 
-async def async_download_image(image_url_tuple , download_dir):
+async def async_download_image(image_url_tuple , bucketfolderpath #download_dir):
 
     image_id, image_url = image_url_tuple
     processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
     image_filename = f"{image_id}.jpg"
-    image_filepath = os.path.join(download_dir, image_filename)
+    image_filepath = bucketfolderpath + imagefilename
+    #image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
     async with aiohttp.ClientSession() as session:
        
@@ -49,8 +58,9 @@ async def async_download_image(image_url_tuple , download_dir):
                   buf = BytesIO()
                   ImgFile.save(buf,format = 'JPEG')
                   byte_im = buf.getvalue()
-                  async with aiofiles.open(image_filepath, "wb") as f:
-                    await f.write(byte_im)
+                  #async with aiofiles.open(image_filepath, "wb") as f:
+                    #await f.write(byte_im)
+                  bucket.blob(imagefilepath).upload_from_string(bytem_im)
 
                 except : 
                   pass
@@ -86,16 +96,38 @@ if __name__ == "__main__" :
                           help="A file which should have the following : ImageId , URL to download",
                          )
       
-      parser.add_argument("--download-dir",
+      #parser.add_argument("--download-dir",
+                          #type=str,
+                          #help="The directory for saving the downloaded images."
+                         #)
+                             
+      parser.add_argument("--Credentials-filepath",
+                           type=str,
+                           help="Path to Json File with Credentials",
+                          )
+      
+      parser.add_argument("--bucketname",
+                         type=str,
+                         help="Name of the Bucket",
+                        )
+                               
+      parser.add_argument("--bucketfolderpath",
                           type=str,
-                          help="The directory for saving the downloaded images."
+                          help="Folder Path"
                          )
+                              
+                               
+             
       
       argv = parser.parse_args()
       
       image_urls_filepath = argv.image_urls_filepath
-      download_dir = argv.download_dir
+      Credentials_filepath = argv.Credentials_filepath
+      bucketname = argv.bucketname
+      #download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
+      bucketfolderpath = argv.bucketfolderpath
+        
       
       print("Downloading images...")
       start = timer()
@@ -103,15 +135,15 @@ if __name__ == "__main__" :
       # Python 3.7+
       if sys.version_info >= (3, 7):
         asyncio.run(
-          async_download_images(image_url_tuples=image_url_tuples,
-                                download_dir=download_dir))
+          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath
+                                #download_dir=download_dir))
         
       # Python 3.5-3.6
       else:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(
-          async_download_images(image_url_tuples=image_url_tuples,
-                                download_dir=download_dir))
+          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath
+                                #download_dir=download_dir))
       
       
       end = timer()
