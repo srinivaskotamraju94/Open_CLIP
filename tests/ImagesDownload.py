@@ -14,7 +14,7 @@ from PIL import Image
 import requests
 
 
-export GOOGLE_APPLICATION_CREDENTIALS = Credentials_filepath
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
 
 from google.cloud import storage
 storage_client = storage.Client()
