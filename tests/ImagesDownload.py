@@ -39,7 +39,7 @@ def read_image_urls(image_urls_filepath) :
 
 async def async_download_image(image_url_tuple,bucketfolderpath,bucketname) :
     
-    storage_client = storage.Client()
+
     image_id, image_url = image_url_tuple
     processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
     image_filename = f"{image_id}.jpg"
@@ -120,6 +120,8 @@ if __name__ == "__main__" :
              
       
       argv = parser.parse_args()
+        
+      storage_client = storage.Client()
       
       image_urls_filepath = argv.image_urls_filepath
       Credentials_filepath = argv.Credentials_filepath
