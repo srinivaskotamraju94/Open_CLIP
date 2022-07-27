@@ -127,7 +127,7 @@ if __name__ == "__main__" :
       Credentials_filepath = argv.Credentials_filepath
       bucketname = argv.bucketname
       bucket = Google_Cred(Credentials_filepath,bucketname)
-      print bucket
+      print(bucket)
       #download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
       bucketfolderpath = argv.bucketfolderpath
