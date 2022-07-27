@@ -68,11 +68,11 @@ async def async_download_image(image_url_tuple , bucketfolderpath) :
  
 
 
-async def async_download_images(image_url_tuples: List[Tuple[int, str]],download_dir):
+async def async_download_images(image_url_tuples: List[Tuple[int, str]],bucketfolderpath):
 
     coroutines = [
         async_download_image(image_url_tuple=image_url_tuple,
-                             download_dir=download_dir)
+                             bucketfolderpath=bucketfolderpath)
         for image_url_tuple in image_url_tuples if image_url_tuple[1] != "None"
     ]
 
