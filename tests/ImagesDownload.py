@@ -135,14 +135,14 @@ if __name__ == "__main__" :
       # Python 3.7+
       if sys.version_info >= (3, 7):
         asyncio.run(
-          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath
+          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath))
                                 #download_dir=download_dir))
         
       # Python 3.5-3.6
       else:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(
-          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath
+          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath))
                                 #download_dir=download_dir))
       
       
