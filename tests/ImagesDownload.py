@@ -133,6 +133,7 @@ if __name__ == "__main__" :
       os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
       storage_client = storage.Client()
       bucket = storage_client.get_bucket(bucketname)
+      print(bucket)
         
       
       print("Downloading images...")
