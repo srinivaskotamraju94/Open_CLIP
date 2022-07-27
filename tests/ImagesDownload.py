@@ -38,13 +38,13 @@ async def async_download_image(image_url_tuple , download_dir):
     image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
     async with aiohttp.ClientSession() as session:
-        #processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
-        async with session.request(method='GET',url=image_url) as response:
+        processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
+        async with session.request(method='GET',url=processed_url) as response:
             if response.status == 200:
                 try : 
                   content = await response.read()
                   ImageBytes = BytesIO(content)
-                  ImgFile = Image.open(ImageBytes).resize((224,224)).convert("RGB")
+                  ImgFile = Image.open(ImageBytes).convert("RGB")
                   buf = BytesIO()
                   ImgFile.save(buf,format = 'JPEG')
                   byte_im = buf.getvalue()
