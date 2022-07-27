@@ -37,7 +37,7 @@ def read_image_urls(image_urls_filepath) :
   
 
 
-async def async_download_image(image_url_tuple,bucketfolderpath,bucketname) :
+async def async_download_image(image_url_tuple,bucketfolderpath) :
     
 
     image_id, image_url = image_url_tuple
@@ -59,7 +59,6 @@ async def async_download_image(image_url_tuple,bucketfolderpath,bucketname) :
                   byte_im = buf.getvalue()
                   #async with aiofiles.open(image_filepath, "wb") as f:
                     #await f.write(byte_im)
-                  bucket = storage_client.get_bucket(bucketname)
                   blob = bucket.blob(imagefilepath)
                   blob.upload_from_string(byte_im)
 
@@ -73,7 +72,7 @@ async def async_download_image(image_url_tuple,bucketfolderpath,bucketname) :
 async def async_download_images(image_url_tuples,bucketfolderpath,bucketname):
 
     coroutines = [
-        async_download_image(image_url_tuple=image_url_tuple,bucketfolderpath=bucketfolderpath,bucketname=bucketname)
+        async_download_image(image_url_tuple=image_url_tuple,bucketfolderpath=bucketfolderpath)
         for image_url_tuple in image_url_tuples if image_url_tuple[1] != "None"
     ]
 
@@ -132,6 +131,7 @@ if __name__ == "__main__" :
         
       os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Credentials_filepath
       storage_client = storage.Client()
+      bucket = storage_client.get_bucket(bucketname)
         
       
       print("Downloading images...")
@@ -140,14 +140,14 @@ if __name__ == "__main__" :
       # Python 3.7+
       if sys.version_info >= (3, 7):
         asyncio.run(
-          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath, bucketname = bucketname))
+          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath))
                                 #download_dir=download_dir))
         
       # Python 3.5-3.6
       else:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(
-          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath, bucketname = bucketname))
+          async_download_images(image_url_tuples=image_url_tuples, bucketfolderpath = bucketfolderpath))
                                 #download_dir=download_dir))
       
       
