@@ -121,16 +121,17 @@ if __name__ == "__main__" :
       
       argv = parser.parse_args()
         
-      storage_client = storage.Client()
-      
       image_urls_filepath = argv.image_urls_filepath
       Credentials_filepath = argv.Credentials_filepath
       bucketname = argv.bucketname
-      Google_Cred(Credentials_filepath)
+      #Google_Cred(Credentials_filepath)
       #print(bucket)
       #download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
       bucketfolderpath = argv.bucketfolderpath
+        
+      export GOOGLE_APPLICATION_CREDENTIALS = Credentails_filepath
+      storage_client = storage.Client()
         
       
       print("Downloading images...")
