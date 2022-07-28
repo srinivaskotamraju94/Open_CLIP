@@ -37,11 +37,8 @@ async def async_download_image(image_url_tuple,download_dir) :
     image_id, image_url = image_url_tuple
     processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
     image_filename = f"{image_id}.jpg"
-    #image_filepath = bucketfolderpath + image_filename
-    #blob = bucket.blob(image_filepath)
     image_filepath = os.path.join(download_dir, image_filename)
-    #os.chdir(download_dir)
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(trust_env=True) as session:
        
         async with session.request(method='GET',url=processed_url) as response:
             if response.status == 200:
@@ -54,9 +51,6 @@ async def async_download_image(image_url_tuple,download_dir) :
                   byte_im = buf.getvalue()
                   async with aiofiles.open(image_filepath, "wb") as f:
                     await f.write(byte_im)
-                  #stream = BytesIO(byte_im)
-                  #blob.upload_from_string(byte_im,content_type="image/jpeg")
-                  #blob.upload_from_file(stream)
 
                 except Exception as ex: 
                     print(ex)
