@@ -61,7 +61,7 @@ async def async_download_image(image_url_tuple,bucketfolderpath) :
                   #async with aiofiles.open(image_filepath, "wb") as f:
                     #await f.write(byte_im)
                   #stream = BytesIO(byte_im)
-                  blob.upload_from_string(byte_im)
+                  blob.upload_from_string(byte_im,content_type="image/jpeg")
                   #blob.upload_from_file(stream)
 
                 except Exception as ex: 
