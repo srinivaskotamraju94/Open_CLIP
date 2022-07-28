@@ -41,7 +41,7 @@ async def async_download_image(image_url_tuple,download_dir) :
     #blob = bucket.blob(image_filepath)
     image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=TCPConnector(verify_ssl=False, limit=500)) as session:
        
         async with session.request(method='GET',url=processed_url) as response:
             if response.status == 200:
@@ -114,14 +114,14 @@ if __name__ == "__main__" :
       if sys.version_info >= (3, 7):
         asyncio.run(
           async_download_images(image_url_tuples=image_url_tuples, download_dir = download_dir))
-                                #download_dir=download_dir))
+                                
         
       # Python 3.5-3.6
       else:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(
           async_download_images(image_url_tuples=image_url_tuples, download_dir = download_dir))
-                                #download_dir=download_dir))
+                             
       
       
       end = timer()
