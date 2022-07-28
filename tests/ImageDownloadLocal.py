@@ -41,7 +41,7 @@ async def async_download_image(image_url_tuple,download_dir) :
     #blob = bucket.blob(image_filepath)
     image_filepath = os.path.join(download_dir, image_filename)
     #os.chdir(download_dir)
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False, limit=500)) as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False, limit=500),trust_env = True) as session:
        
         async with session.request(method='GET',url=processed_url) as response:
             if response.status == 200:
