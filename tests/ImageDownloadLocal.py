@@ -67,12 +67,12 @@ async def async_download_image(image_url_tuple,download_dir) :
                     try : 
                         content = await response.read()
                         ImageBytes = BytesIO(content)
-                        #ImgFile = Image.open(ImageBytes).convert("RGB")
-                        #buf = BytesIO()
-                        #ImgFile.save(ImageBytes,format = 'JPEG')
-                        #byte_im = buf.getvalue()
+                        ImgFile = Image.open(ImageBytes).convert("RGB")
+                        buf = BytesIO()
+                        ImgFile.save(buf,format = 'JPEG')
+                        byte_im = buf.getvalue()
                         async with aiofiles.open(image_filepath, "wb") as f:
-                            await f.write(ImageBytes)
+                            await f.write(byte_im)
                     
                     except Exception as ex: 
                         print(ex)
