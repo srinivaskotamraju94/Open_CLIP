@@ -4,6 +4,7 @@ import asyncio
 import argparse
 #pip install aiohttp
 import aiohttp
+from aiohttp import ClientSession, ClientResponseError, TCPConnector, ClientConnectorError, ClientError
 #pip install aiofiles
 import aiofiles
 from io import BytesIO
