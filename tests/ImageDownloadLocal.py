@@ -41,7 +41,7 @@ async def async_download_image(image_url_tuple,download_dir) :
     async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(verify_ssl=False, limit=10),trust_env=True) as session:
         
         async with SEMA :
-            async with session.request(method='GET',url=processed_url) as response:
+            async with session.request(method='GET',url=processed_url,timeout = 300) as response:
                 if response.status == 200:
                     try : 
                         content = await response.read()
@@ -49,9 +49,9 @@ async def async_download_image(image_url_tuple,download_dir) :
                         ImgFile = Image.open(ImageBytes).convert("RGB")
                         buf = BytesIO()
                         ImgFile.save(buf,format = 'JPEG')
-                        byte_im = buf.getvalue()
+                        #byte_im = buf.getvalue()
                         async with aiofiles.open(image_filepath, "wb") as f:
-                            await f.write(byte_im)
+                            await f.write(buf.getvalue())
 
                     except Exception as ex: 
                         print(ex)
