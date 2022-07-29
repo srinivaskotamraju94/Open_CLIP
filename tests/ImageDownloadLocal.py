@@ -44,6 +44,7 @@ async def async_download_image(image_url_tuple,download_dir) :
     
         async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(verify_ssl=False, limit=10),trust_env=True) as session:
             async with SEMA :
+                @backoff.on_exception(backoff.expo, asyncio.TimeoutError, max_tries=5)
                 async with session.request(method='GET',url=processed_url,timeout = 300) as response:
                     if response.status == 200:
                         try : 
@@ -107,8 +108,7 @@ if __name__ == "__main__" :
       download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
     
-      @backoff.on_exception(backoff.expo, asyncio.TimeoutError, max_tries=5)
-      @backoff.on_exception(backoff.expo, aiohttp.ClientError, max_tries=5)
+      #@backoff.on_exception(backoff.expo, asyncio.TimeoutError, max_tries=5)
         
        
       print("Downloading images...")
