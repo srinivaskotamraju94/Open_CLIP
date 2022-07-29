@@ -33,7 +33,7 @@ def read_image_urls(image_urls_filepath) :
 
 async def async_download_image(image_url_tuple,download_dir) :
     
-    SEMA = asyncio.BoundedSemaphore(500)
+    SEMA = asyncio.BoundedSemaphore(100)
     image_id, image_url = image_url_tuple
     processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
     image_filename = f"{image_id}.jpg"
