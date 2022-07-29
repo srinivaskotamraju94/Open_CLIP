@@ -82,15 +82,15 @@ async def async_download_image(image_url_tuple,download_dir) :
                         print(f"Unable to download image {image_id} from {processed_url}")
                     
             except asyncio.TimeoutError as e:
-                message = "Image download failed: Timeout Error for i5 url {}".format(url)
+                message = "Image download failed: Timeout Error for i5 url {}".format(processed_url)
                 logging.warning(message)
                 return processed_url, 408, message
             except ClientResponseError as e:
-                message = "Image download failed: Client Response Error for i5 url {}, status code {}".format(url,e.code)
+                message = "Image download failed: Client Response Error for i5 url {}, status code {}".format(processed_url,e.code)
                 logging.warning(message)
                 return processed_url, e.code, message
             except Exception as e:
-                message = "Image download failed: Unknown Error for i5 url {}, ".format(url)
+                message = "Image download failed: Unknown Error for i5 url {}, ".format(processed_url)
                 logging.warning(message)
                 logging.warning(e)
                 return processed_url, -1, message
