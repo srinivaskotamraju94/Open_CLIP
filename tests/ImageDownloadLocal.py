@@ -78,8 +78,8 @@ async def async_download_image(image_url_tuple,download_dir) :
                         except Exception as ex: 
                             print(ex)
                             pass
-                else:
-                    print(f"Unable to download image {image_id} from {image_url}")
+                    else :
+                        print(f"Unable to download image {image_id} from {image_url}")
                     
             except asyncio.TimeoutError as e:
                 message = "Image download failed: Timeout Error for i5 url {}".format(url)
