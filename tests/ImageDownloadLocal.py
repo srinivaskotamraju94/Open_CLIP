@@ -33,32 +33,36 @@ def read_image_urls(image_urls_filepath) :
 
 async def async_download_image(image_url_tuple,download_dir) :
     
-    SEMA = asyncio.BoundedSemaphore(100)
-    image_id, image_url = image_url_tuple
-    processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
-    image_filename = f"{image_id}.jpg"
-    image_filepath = os.path.join(download_dir, image_filename)
-    async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(verify_ssl=False, limit=10),trust_env=True) as session:
-        
-        async with SEMA :
-            async with session.request(method='GET',url=processed_url,timeout = 300) as response:
-                if response.status == 200:
-                    try : 
-                        content = await response.read()
-                        ImageBytes = BytesIO(content)
-                        ImgFile = Image.open(ImageBytes).convert("RGB")
-                        buf = BytesIO()
-                        ImgFile.save(buf,format = 'JPEG')
-                        #byte_im = buf.getvalue()
-                        async with aiofiles.open(image_filepath, "wb") as f:
-                            await f.write(buf.getvalue())
+    try : 
+        SEMA = asyncio.BoundedSemaphore(100)
+        image_id, image_url = image_url_tuple
+        processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
+        image_filename = f"{image_id}.jpg"
+        image_filepath = os.path.join(download_dir, image_filename)
+    
+        async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(verify_ssl=False, limit=10),trust_env=True) as session:
+            async with SEMA :
+                async with session.request(method='GET',url=processed_url,timeout = 300) as response:
+                    if response.status == 200:
+                        try : 
+                            content = await response.read()
+                            ImageBytes = BytesIO(content)
+                            ImgFile = Image.open(ImageBytes).convert("RGB")
+                            buf = BytesIO()
+                            ImgFile.save(buf,format = 'JPEG')
+                            #byte_im = buf.getvalue()
+                            async with aiofiles.open(image_filepath, "wb") as f:
+                                await f.write(buf.getvalue())
 
-                    except Exception as ex: 
-                        print(ex)
-                        pass
-                else:
-                    print(f"Unable to download image {image_id} from {image_url}")
+                        except Exception as ex: 
+                            print(ex)
+                            pass
+                    else:
+                        print(f"Unable to download image {image_id} from {image_url}")
  
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout error to download {image_filename} into Local ")
+        raise
 
 
 async def async_download_images(image_url_tuples,download_dir):
