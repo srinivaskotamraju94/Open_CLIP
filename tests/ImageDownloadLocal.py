@@ -7,14 +7,14 @@ import aiohttp
 #pip install aiofiles
 import aiofiles
 from io import BytesIO
-from typing import List, Tuple, Optional
+#from typing import List, Tuple, Optional
 from timeit import default_timer as timer
 from datetime import timedelta
 from PIL import Image
 import requests
 import backoff
-#from google.cloud import storage
-#import storage
+import logging
+
 
 def read_image_urls(image_urls_filepath) :
 
@@ -30,42 +30,54 @@ def read_image_urls(image_urls_filepath) :
 
     return image_url_tuples
   
+SEMA = asyncio.BoundedSemaphore(500)
+HTTP_STATUS_CODES_TO_RETRY = {500, 502, 503, 504}
+
+
+def timeout_handler(details):
+
+    logging.warning("Retrying url: {} ({} retry)".format(details['args'][0],details['tries']+1))
+    
+    
+def error_code_handler(e):
+
+    return e.code not in HTTP_STATUS_CODES_TO_RETRY
+
+def backoff_hdlr_2(details):
+    print(details)
+
+@backoff.on_exception(backoff.expo, asyncio.TimeoutError, max_tries=5,  on_backoff=timeout_handler)
+@backoff.on_exception(backoff.expo, ClientResponseError, max_tries=5, on_backoff=backoff_hdlr_2, giveup=error_code_handler)
 
 
 async def async_download_image(image_url_tuple,download_dir) :
     
-    try : 
-        SEMA = asyncio.BoundedSemaphore(100)
-        image_id, image_url = image_url_tuple
-        processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
-        image_filename = f"{image_id}.jpg"
-        image_filepath = os.path.join(download_dir, image_filename)
+    image_id, image_url = image_url_tuple
+    processed_url = image_url + "?odnHeight=224&odnWidth=224&odnBg=ffffff"
+    image_filename = f"{image_id}.jpg"
+    image_filepath = os.path.join(download_dir, image_filename)
 
-    
-        async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(verify_ssl=False, limit=10),trust_env=True) as session:
-            async with SEMA :
-                @backoff.on_exception(backoff.expo, asyncio.TimeoutError, max_tries=5)
-                async with session.request(method='GET',url=processed_url,timeout = 300) as response:
-                    if response.status == 200:
-                        try : 
-                            content = await response.read()
-                            ImageBytes = BytesIO(content)
-                            ImgFile = Image.open(ImageBytes).convert("RGB")
-                            buf = BytesIO()
-                            ImgFile.save(buf,format = 'JPEG')
-                            #byte_im = buf.getvalue()
-                            async with aiofiles.open(image_filepath, "wb") as f:
-                                await f.write(buf.getvalue())
-
-                        except Exception as ex: 
-                            print(ex)
-                            pass
-                    else:
-                        print(f"Unable to download image {image_id} from {image_url}")
- 
-    except asyncio.TimeoutError:
-        logger.error(f"Timeout error to download {image_filename} into Local ")
-        #raise
+    async with aiohttp.ClientSession(raise_for_status=True,connector=aiohttp.TCPConnector(ssl=False, limit=100),trust_env=True) as session:
+        
+        async with SEMA :
+            
+            async with session.request(method='GET',url=processed_url,timeout = 300) as response:
+                if response.status == 200:
+                    try : 
+                        content = await response.read()
+                        ImageBytes = BytesIO(content)
+                        #ImgFile = Image.open(ImageBytes).convert("RGB")
+                        #buf = BytesIO()
+                        #ImgFile.save(ImageBytes,format = 'JPEG')
+                        #byte_im = buf.getvalue()
+                        async with aiofiles.open(image_filepath, "wb") as f:
+                            await f.write(ImageBytes)
+                    
+                    except Exception as ex: 
+                        print(ex)
+                        pass
+                else:
+                    print(f"Unable to download image {image_id} from {image_url}")
 
 
 async def async_download_images(image_url_tuples,download_dir):
@@ -108,7 +120,7 @@ if __name__ == "__main__" :
       download_dir = argv.download_dir
       image_url_tuples = read_image_urls(image_urls_filepath)
     
-      #@backoff.on_exception(backoff.expo, asyncio.TimeoutError, max_tries=5)
+
         
        
       print("Downloading images...")
