@@ -12,6 +12,7 @@ from timeit import default_timer as timer
 from datetime import timedelta
 from PIL import Image
 import requests
+import backoff
 #from google.cloud import storage
 #import storage
 
