@@ -25,7 +25,7 @@ if __name__ == "__main__" :
       
       argv = parser.parse_args()
       
-      Credentails_filepath = argv.Credentials_filepath
+      Credentials_filepath = argv.Credentials_filepath
       Google_Cred(Credentials_filepath)
       storage_client = storage.Client()
       bucket = storage_client.get_bucket('wmt-trust-and-safety')
