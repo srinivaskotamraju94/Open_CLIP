@@ -49,7 +49,7 @@ def ImageURLFile(ItemDataFrame) :
 
 
 def ImageCaptionFile(ItemDataFrame) :
-    os.chdir("/rapids/notebooks/host/home/CaptionFiles")
+    os.chdir("/rapids/notebooks/host/mnt/ClipImageText")
     
     for val in ItemDF.index : 
         ItemId = ItemDF['ItemId'][val]
