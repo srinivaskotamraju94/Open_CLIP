@@ -37,7 +37,7 @@ def dataframe_func(AllItemList) :
 
 def ImageURLFile(ItemDataFrame) :
     
-    ImageURLFile = open('/rapids/notebooks/host/ImgUrlFile', 'w')
+    ImageURLFile = open('/rapids/notebooks/host/home/ImgUrlFile', 'w')
 
     for value in ItemDataFrame.index : 
         ItemId = ItemDataFrame['ItemId'][value]
@@ -49,7 +49,7 @@ def ImageURLFile(ItemDataFrame) :
 
 
 def ImageCaptionFile(ItemDataFrame) :
-    os.chdir("/rapids/notebooks/host/CaptionFiles")
+    os.chdir("/rapids/notebooks/host/home/CaptionFiles")
     
     for val in ItemDF.index : 
         ItemId = ItemDF['ItemId'][val]
