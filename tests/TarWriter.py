@@ -6,7 +6,8 @@ import argparse
 
 JsonFileNo = 0 
 
-def gettarfiles(filepath,ImagePath) : 
+def gettarfiles(filepath,ImagePath,DestinationPath) : 
+  os.chdir(DestinationPath)
   
   for JsonFile in os.listdir(filepath):
     print("JsonFile being processed is {}".format(JsonFile))
