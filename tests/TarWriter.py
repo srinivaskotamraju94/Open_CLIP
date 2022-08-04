@@ -43,6 +43,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
         print("{} is not available in the ImagePath".format(filename))
      
     TarFile.close()
+    print("TarFile {} is Completed".format(JsonFileNo))
       
     JsonFileNo = JsonFile + 1
       
