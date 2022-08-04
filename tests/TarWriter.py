@@ -28,14 +28,16 @@ def gettarfiles(filepath,ImagePath) :
       filename = basename + '.jpg'
       try : 
         with open(os.path.join(ImagePath,filename),'rb') as stream :
-        Image = stream.read()
-        Caption = ItemDF['ProductName'][index] 
-        dict = {
-          "__key__":basename,
-          "jpg":Image,
-          "txt":Caption
-        }
-      Tarfile.write(dict)
+          Image = stream.read()
+          Caption = ItemDF['ProductName'][index] 
+          dict = {
+            "__key__":basename,
+            "jpg":Image,
+            "txt":Caption
+          }
+        
+          Tarfile.write(dict)
+      
       except :
         print("{} is not available in the ImagePath".format(filename))
      
