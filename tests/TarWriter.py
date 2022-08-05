@@ -5,10 +5,11 @@ import pandas as pd
 import argparse
 import webdataset as wbs
 
-JsonFileNo = 0 
+
 
 def gettarfiles(filepath,ImagePath,DestinationPath) : 
   os.chdir(DestinationPath)
+  JsonFileNo = 0
   
   for JsonFile in os.listdir(filepath):
     print("JsonFile being processed is {}".format(JsonFile))
@@ -46,7 +47,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
     TarFile.close()
     print("TarFile {} is Completed".format(JsonFileNo))
       
-    JsonFileNo = JsonFile + 1
+    JsonFileNo = JsonFileNo + 1
     
 if __name__ == "__main__" :
   parser = argparse.ArgumentParser(
