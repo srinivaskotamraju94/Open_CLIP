@@ -33,7 +33,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
       try : 
         with open(os.path.join(ImagePath,filename),'rb') as stream :
           Image = stream.read()
-        Caption = ItemDF['ProductName'][index] 
+        Caption = ItemDF['ProductName'][ind] 
         dict = {
           "__key__":basename,
           "jpg":Image,
