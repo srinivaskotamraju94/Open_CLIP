@@ -3,6 +3,7 @@ import json
 import ast
 import pandas as pd
 import argparse
+import webdataset as wbs
 
 JsonFileNo = 0 
 
@@ -22,7 +23,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
       
     ItemDF = pd.DataFrame(AllItemList,columns = ['ItemId','ProductName'])
       
-    TarFile = TarWriter("ClipImage{0:03d}.tar".format(JsonFileNo))
+    TarFile = wbs.TarWriter("ClipImage{0:03d}.tar".format(JsonFileNo))
     
     for ind in ItemDF.index :
       basename = ItemDF['ItemId'][ind]
