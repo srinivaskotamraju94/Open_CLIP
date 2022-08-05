@@ -39,7 +39,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
           "jpg":Image,
           "txt":Caption}
         
-        Tarfile.write(dict)
+        TarFile.write(dict)
       
       except Exception as ex :
         print(ex)
