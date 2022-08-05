@@ -25,7 +25,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
     TarFile = TarWriter("ClipImage{0:03d}.tar".format(JsonFileNo))
     
     for ind in ItemDF.index :
-      basename = Filtered_ImageList['ItemId'][ind]
+      basename = ItemDF['ItemId'][ind]
       filename = basename + '.jpg'
       try : 
         with open(os.path.join(ImagePath,filename),'rb') as stream :
@@ -46,5 +46,33 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
     print("TarFile {} is Completed".format(JsonFileNo))
       
     JsonFileNo = JsonFile + 1
+    
+if __name__ == "__main__" :
+  parser = argparse.ArgumentParser(
+    description="Download Pixabay royalty-free images.",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    
+  parser.add_argument("--filepath",
+                          type=str,
+                          help="The directory of the JSON Files",
+                     )
+      
+  parser.add_argument("--ImagePath",
+                      type=str,
+                      help="The directory of the downloaded images."
+                     )  
+    
+  parser.add_argument("--DestinationPath",
+                      type=str,
+                      help="Directory to save Tar Files"
+                     )
+  
+  argv = parser.parse_args()
+  
+  filepath = argv.filepath
+  ImagePath = argv.ImagePath 
+  DestinationPath = argv.DestinationPath 
+  
+  gettarfiles(filepath,ImagePath,DestinationPath)
       
   
