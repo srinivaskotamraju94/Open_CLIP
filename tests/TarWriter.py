@@ -42,7 +42,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
           Tarfile.write(dict)
       
       except :
-        print("{} is not available in the ImagePath".format(filename))
+        print("{} is not available in the {}".format(filename,os.path.join(ImagePath,filename)))
      
     TarFile.close()
     print("TarFile {} is Completed".format(JsonFileNo))
