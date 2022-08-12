@@ -50,19 +50,7 @@ def ImageURLFile(ItemDataFrame) :
     ImageURLFile.close()
 
 
-def ImageCaptionFile(ItemDataFrame) :
-    os.chdir("/rapids/notebooks/host/mnt/ClipImageText")
-    
-    for val in ItemDF.index : 
-        ItemId = ItemDF['ItemId'][val]
-        try :
-            TextName = ItemId + '.txt'
-            TxtFile = open(TextName, 'w')
-            ImageCaption = ItemDF['ProductName'][val]
-            TxtFile.write("{}\n".format(ImageCaption))
-    
-        except :
-            pass
+
         
         
 if __name__ == "__main__" :
@@ -80,4 +68,4 @@ if __name__ == "__main__" :
       ItemDF = dataframe_func(AllItemList)
       
       ImageURLFile(ItemDF)
-      ImageCaptionFile(ItemDF)
+
