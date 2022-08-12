@@ -1,3 +1,5 @@
+# Creates Tar Files and Captions doe finetuning CLIP Model
+
 import os 
 import json 
 import ast
@@ -51,7 +53,7 @@ def gettarfiles(filepath,ImagePath,DestinationPath) :
     
 if __name__ == "__main__" :
   parser = argparse.ArgumentParser(
-    description="Download Pixabay royalty-free images.",
+    description="Create TarFiles and CaptionFiles.",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
   parser.add_argument("--filepath",
