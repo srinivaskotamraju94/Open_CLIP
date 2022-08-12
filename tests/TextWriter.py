@@ -1,3 +1,5 @@
+# Code for creating Caption Files (.txt) Files  
+
 import os 
 import json 
 #os.chdir("/Users/s0k09e3/Downloads")
@@ -66,10 +68,10 @@ def ImageCaptionFile(ItemDataFrame) :
 if __name__ == "__main__" :
   
       parser = argparse.ArgumentParser(
-        description="Download Pixabay royalty-free images.",
+        description="Create Caption Files for CLIP Training.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
-      parser.add_argument("--filepath",type=str,help="A file which should have the following : ImageId , URL to download",)
+      parser.add_argument("--filepath",type=str,help="Filepath to Jsonfiles which should have the following : ImageId , URL to download",)
         
       argv = parser.parse_args()
     
