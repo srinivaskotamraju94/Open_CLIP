@@ -1,3 +1,5 @@
+# Code used for CLIP inference on a folder of Images - Used to test the model with Flickr 8k Dataset
+
 import torch
 from PIL import Image
 from open_clip import tokenizer
